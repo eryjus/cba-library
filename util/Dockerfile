@@ -24,7 +24,7 @@ RUN     sudo wget https://dev.mysql.com/get/mysql-apt-config_0.8.13-1_all.deb -O
 ##    -----------------------------------------------------------------------------------------------------------
 USER    root
 RUN     apt-get update \
-  &&    DEBIAN_FRONTEND=noninteractive apt-get install mysql-server mysql-shell libmysqlcppconn-dev libmysqlcppconn8-1 -y -q \
+  &&    DEBIAN_FRONTEND=noninteractive apt-get install mysql-server mysql-shell libmysqlcppconn-dev -y -q \
   &&    DEBIAN_FRONTEND=noninteractive  apt-get upgrade -y -q \
   &&    apt-get clean \
   &&    rm -rf /var/cache/apt/* /var/lib/apt/lists/* /tmp/* 

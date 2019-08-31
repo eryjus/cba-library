@@ -36,9 +36,9 @@ RUN     apt-get update \
 ##    ---------------------------------
 RUN     sudo mkdir -p /var/run/mysqld /var/lib/mysql-upgrade /usr/share/mysql \
   &&    sudo chown -R gitpod:gitpod /etc/mysql /var/run/mysqld /var/log/mysql /var/lib/mysql /var/lib/mysql-files /var/lib/mysql-keyring /var/lib/mysql-upgrade /usr/share/mysql 
-COPY    mysql.cnf /etc/mysql/mysql.conf.d/mysqld.cnf
-COPY    client.cnf /etc/mysql/mysql.conf.d/client.cnf
-COPY    launch.sh /etc/mysql/mysql-bashrc-launch.sh
+COPY    util/mysql.cnf /etc/mysql/mysql.conf.d/mysqld.cnf
+COPY    util/client.cnf /etc/mysql/mysql.conf.d/client.cnf
+COPY    util/launch.sh /etc/mysql/mysql-bashrc-launch.sh
 RUN     sudo chmod +x /etc/mysql/mysql-bashrc-launch.sh
 
 

@@ -1,4 +1,4 @@
-### CBA Runtime Library Jornal
+# CBA Runtime Library Jornal
 
 Like all my project, I will be keeping a journal of my work and my progress.  Once again, this file is more related to my thinking and my internal debated than it is about how the system/code is configured.  Decisions documented here will change.  Please be prepared for that.
 
@@ -6,7 +6,7 @@ Like all my project, I will be keeping a journal of my work and my progress.  On
 
 ## v0.0.0 -- Basic setup and project
 
-# 2019-Aug-30
+### 2019-Aug-30
 
 Today I was able to get a proper Gitpod up and running with everything I need to perform this work.  Having working through all the issues, I have committed this version and merged it into the master repo.
 
@@ -18,14 +18,14 @@ This merge was important because I actually did this as a pull request just to s
 
 This version establish an interface for a connection to a CBA database.  This will be implemented using a singleton pattern.
 
-# 2019-Aug-30
+### 2019-Aug-30
 
 There may be a need down the road to support several schemas distributed over several servers.  Well, I only hope to be that successful.  For now, only 1 connection to a single datbase will be supported for all Schema objects.  Therefore, I only need a singleton class.
 
 You know, I started a bit of this on codenvy.io and realized the limitations there.  I will be harvesting code from that cloud system to bring over here before I delete my account.  There are some initial problem -- which need to be sorted out, of course.  That will be for next time.
 
 
-# 2019-Sep-01
+### 2019-Sep-01
 
 OK, so I am startng with sorting out the compile issues.
 

@@ -40,6 +40,14 @@ all: lib/$(TGT) bin/$(EXE)
 
 
 ##
+## -- Execute the suite of tests
+##    --------------------------
+.phony: test
+test: all
+	for x in $(addprefix bin/,$(EXE)); do echo $$x && $$x; done
+
+
+##
 ## -- This is the main static library we are intending to build
 ##    ---------------------------------------------------------
 lib/$(TGT): $(addprefix obj/,$(OBJ)) Makefile
@@ -64,4 +72,3 @@ bin/%: tst/%.cc lib/$(TGT) Makefile
 	echo "TEST   " $<
 	mkdir -p bin
 	gcc $(CFLAGS) -Llib -o $@ $< -lcba -lmysqlcppconn8 -lstdc++
-	$@

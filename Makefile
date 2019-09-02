@@ -19,6 +19,7 @@
 ##    ----------------------------------
 TGT = libcba.a
 SRC = $(sort $(subst src/,,$(wildcard src/*.cc)))
+INC = $(sort $(wildcard inc/*.h))
 OBJ = $(subst .cc,.o,$(SRC))
 TST = $(sort $(subst tst/,,$(wildcard tst/*.cc)))
 EXE = $(subst .cc,,$(TST))
@@ -35,7 +36,7 @@ AR = ar rcs
 ## -- This is the main target
 ##    -----------------------
 .phony: all
-all: lib/$(TGT) bin/$(EXE)
+all: lib/$(TGT) $(addprefix bin/,$(EXE))
 	rm -f core.*
 
 
@@ -44,13 +45,24 @@ all: lib/$(TGT) bin/$(EXE)
 ##    --------------------------
 .phony: test
 test: all
-	for x in $(addprefix bin/,$(EXE)); do echo $$x && $$x; done
+	rm -f *.log
+	for x in $(addprefix bin/,$(EXE)); do echo "TEST   " $$x && $$x; done
+
+
+##
+## -- Clean up the build
+##    ------------------
+.phony: clean
+clean:
+	rm -fR bin obj lib
+	rm -f core.*
+	rm -f *.log
 
 
 ##
 ## -- This is the main static library we are intending to build
 ##    ---------------------------------------------------------
-lib/$(TGT): $(addprefix obj/,$(OBJ)) Makefile
+lib/$(TGT): $(addprefix obj/,$(OBJ)) Makefile $(INC)
 	echo "AR     " $@
 	mkdir -p lib
 	$(AR) $@ $(addprefix obj/,$(OBJ))
@@ -59,7 +71,7 @@ lib/$(TGT): $(addprefix obj/,$(OBJ)) Makefile
 ##
 ## -- Compile a .cc source to an object
 ##    ---------------------------------
-obj/%.o: src/%.cc Makefile
+obj/%.o: src/%.cc Makefile $(INC)
 	echo "CC     " $<
 	mkdir -p obj
 	$(CC) $(CFLAGS) -o $@ $<
@@ -68,7 +80,7 @@ obj/%.o: src/%.cc Makefile
 ##
 ## -- Execute a test
 ##    --------------
-bin/%: tst/%.cc lib/$(TGT) Makefile
-	echo "TEST   " $<
+bin/%: tst/%.cc lib/$(TGT) Makefile $(INC)
+	echo "CC     " $<
 	mkdir -p bin
 	gcc $(CFLAGS) -Llib -o $@ $< -lcba -lmysqlcppconn8 -lstdc++

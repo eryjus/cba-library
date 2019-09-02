@@ -13,8 +13,9 @@
 //
 // -- include the header files we will require
 //--------------------------------------------
+#include "cba.h"
 #include "cba-session.h"
-#include "logger.h"
+#include "clog.h"
 
 #include <string>
 
@@ -22,18 +23,7 @@
 //
 // -- This is the connection we will use
 //    ----------------------------------
-const std::string host = "localhost";
 const int port = 33060;
-const std::string user = "cba";
-const std::string pwd = "P@ssw0rd";
-const std::string db = "mysql";
-
-
-//
-// -- This is a logger for this file in case we want to log something
-//    ---------------------------------------------------------------
-eryjus::cba::Logger<eryjus::cba::FileLogPolicy> logger("cba-session");
-#define ENABLE_LOG logger
 
 
 //
@@ -51,23 +41,44 @@ CbaSession *CbaSession::singleton = NULL;
 //
 // -- The constructor, which establishes a session
 //    --------------------------------------------
-CbaSession::CbaSession(const std::string &db) : Session(host, port, user, pwd, db), initialDb(db)
+CbaSession::CbaSession(const std::string &u, const std::string &p, const std::string &h)
+        : Session(h, 33060, u, p), user(u), pwd(p), host(h)
 {
-	LOG("processed request to create a new CbaSession instance.");
-	LOG("  The host for this connection is: ", host);
-	LOG("  The user for this conenction is: ", user);
-	LOG("  The initial database for this connection is: ", db);
+    if (clog_init_path(CBA_SESSION, "cba_session.log") != 0) {
+        throw std::runtime_error("Unable to create log file");
+    }
+
+    clog_debug(CLOG(CBA_SESSION), "processed request to create a new CbaSession instance.");
+	clog_debug(CLOG(CBA_SESSION), "  The host for this connection is: %s", host.c_str());
+	clog_debug(CLOG(CBA_SESSION), "  The user for this conenction is: %s", user.c_str());
 }
 
 
 //
 // -- This is the function to grab the singleton instance, creating a new one if appropriate
 //    --------------------------------------------------------------------------------------
+CbaSession &CbaSession::Singleton(const std::string &u, const std::string &p, const std::string &h)
+{
+	if (singleton == NULL) {
+		singleton = new CbaSession(u, p, h);
+		clog_debug(CLOG(CBA_SESSION), "Singleton instance of CbaSession is NULL; creating a new one.");
+	} else if (u != singleton->user || h != singleton->host) {
+        clog_error(CLOG(CBA_SESSION), "Singleton() tries to redefine connection credentials; new credentials ignored.");
+    }
+
+	return *singleton;
+}
+
+
+//
+// -- Return an existing singleton instance
+//    -------------------------------------
 CbaSession &CbaSession::Singleton(void)
 {
 	if (singleton == NULL) {
-		LOG("Singleton instance of CbaSession is NULL; creating a new one.");
-		singleton = new CbaSession(db);
+        clog_init_fd(CBA_STDERR, 2);
+		clog_error(CLOG(CBA_STDERR), "Singleton instance of CbaSession is NULL; You must establish one before retrieving");
+        throw std::runtime_error("Estabish a CbaSession before retrieving it");
 	}
 
 	return *singleton;

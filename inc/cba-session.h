@@ -24,17 +24,21 @@ namespace eryjus {
 			CbaSession(const CbaSession &) = delete;
 			void operator=(const CbaSession &) = delete;
 
-		private:
-			const std::string initialDb;
+        private:
+            const std::string user;
+            const std::string pwd;
+            const std::string host;
 
 		private:
 			static CbaSession *singleton;
 
 		private:
-			explicit CbaSession(const std::string &db);
+			explicit CbaSession(const std::string &u, const std::string &p, const std::string &h);
 
 		public:
-			static CbaSession &Singleton(void);
+			static CbaSession &Singleton(const std::string &u, const std::string &p,
+                    const std::string &h = "localhost");
+            static CbaSession &Singleton(void);
 
 		private:
 			~CbaSession() {}		// -- made private so it cannot be deleted

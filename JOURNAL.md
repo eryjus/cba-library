@@ -71,3 +71,7 @@ This works well enough and I am able to get logs both at `stderr` and in a log f
 With `test00007.cc`, I am not able to get a default schema name.  This is because I am not setting one.  So, I need to think about this a bit since I am not sure I want to set a default schema.  I am leaving this here for the night.
 
 
+### 2019-Sep-02
+
+OK, I think I am going to abandon the default schema check.  So `test00007` is going to be removed.  This then should have me ready for a commit for v0.0.2.
+

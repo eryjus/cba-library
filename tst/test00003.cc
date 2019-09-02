@@ -1,25 +1,28 @@
 //===================================================================================================================
-//  test00001.cc -- Test the basic session connectivity
+//  test00003.cc -- Test the logger output
 //
-//  This test will confirm that we are able to properly connect to the database using a CbaSession object.
+//  Ensure that the logger is outputting test properly.
 //
 //  -----------------------------------------------------------------------------------------------------------------
 //
 //     Date      Tracker  Version  Programmer  Description
 //  -----------  -------  -------  ----------  ----------------------------------------------------------------------
-//  2019-Aug-30  Initial   0.0.1      ADCL     Initial version
+//  2019-Sep-01  Initial   0.0.2      ADCL     Initial version
 //
 //===================================================================================================================
 
 
-#include "cba-session.h"
-#include <iostream>
-#include <cstdlib>
-
+#include "cba.h"
+#include "clog.h"
 
 
 int main()
 {
-    eryjus::cba::CbaSession &sess = eryjus::cba::CbaSession::Singleton("cba", "P@ssw0rd");
-    return EXIT_SUCCESS;
+    clog_init_fd(CBA_STDERR, 2);
+    clog_debug(CLOG(CBA_STDERR), "This is a debug message");
+    clog_info(CLOG(CBA_STDERR), "This is an info message");
+    clog_warn(CLOG(CBA_STDERR), "This is a warning message");
+    clog_error(CLOG(CBA_STDERR), "This is an error message");
+    clog_free(CBA_STDERR);
 }
+

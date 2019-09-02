@@ -51,3 +51,27 @@ I have this worked out.  I also have a test that is written to confirm that this
 
 I think I am ready for a commit.  Now, I want to be able to run the tests on demand and not with every build.  So, to test out the commit process, I am going to make some comments in the pull request to clean this piece up.
 
+
+## v0.0.2 -- Change the `CbaSession` class to accept credentials
+
+This version is going to refactor the `CbaSession` class so that the user/password is passed in during construction.
+
+### 2019-Sep-01
+
+So, this is going to be a little rough given the singleton development pattern.  It is completely possible that another call might try to change the user/password.  This is going to have to be logged.
+
+---
+
+Working on the logging issues, I wanted to go back to the source of what I lifted from and Dr Dobbs web site appears to not have this old content anymore.  [I found another source](https://github.com/mmueller/clog) for a logger.
+
+This works well enough and I am able to get logs both at `stderr` and in a log file.  This will also address [issue #4](https://github.com/eryjus/cba-library/issues/4).
+
+---
+
+With `test00007.cc`, I am not able to get a default schema name.  This is because I am not setting one.  So, I need to think about this a bit since I am not sure I want to set a default schema.  I am leaving this here for the night.
+
+
+### 2019-Sep-02
+
+OK, I think I am going to abandon the default schema check.  So `test00007` is going to be removed.  This then should have me ready for a commit for v0.0.2.
+

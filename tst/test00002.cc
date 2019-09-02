@@ -1,25 +1,28 @@
 //===================================================================================================================
-//  test00001.cc -- Test the basic session connectivity
+//  test00002.cc -- Test the basic session connectivity -- failure expected
 //
-//  This test will confirm that we are able to properly connect to the database using a CbaSession object.
+//  This test that connectivity fails propery.
 //
 //  -----------------------------------------------------------------------------------------------------------------
 //
 //     Date      Tracker  Version  Programmer  Description
 //  -----------  -------  -------  ----------  ----------------------------------------------------------------------
-//  2019-Aug-30  Initial   0.0.1      ADCL     Initial version
+//  2019-Sep-01  Initial   0.0.2      ADCL     Initial version
 //
 //===================================================================================================================
 
 
 #include "cba-session.h"
-#include <iostream>
 #include <cstdlib>
-
 
 
 int main()
 {
-    eryjus::cba::CbaSession &sess = eryjus::cba::CbaSession::Singleton("cba", "P@ssw0rd");
-    return EXIT_SUCCESS;
+    try {
+        eryjus::cba::CbaSession &sess = eryjus::cba::CbaSession::Singleton("cba", "Invalid");
+    } catch(...) {
+        return EXIT_SUCCESS;
+    }
+
+    return EXIT_FAILURE;
 }

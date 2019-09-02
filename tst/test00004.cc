@@ -1,25 +1,25 @@
 //===================================================================================================================
-//  test00001.cc -- Test the basic session connectivity
-//
-//  This test will confirm that we are able to properly connect to the database using a CbaSession object.
+//  test00004.cc -- Ensure that a new singleton instance with different credentials are ignored.
 //
 //  -----------------------------------------------------------------------------------------------------------------
 //
 //     Date      Tracker  Version  Programmer  Description
 //  -----------  -------  -------  ----------  ----------------------------------------------------------------------
-//  2019-Aug-30  Initial   0.0.1      ADCL     Initial version
+//  2019-Sep-01  Initial   0.0.2      ADCL     Initial version
 //
 //===================================================================================================================
 
 
+#include "cba.h"
 #include "cba-session.h"
-#include <iostream>
 #include <cstdlib>
-
 
 
 int main()
 {
-    eryjus::cba::CbaSession &sess = eryjus::cba::CbaSession::Singleton("cba", "P@ssw0rd");
+    eryjus::cba::CbaSession &sess1 = eryjus::cba::CbaSession::Singleton("cba", "P@ssw0rd");
+    eryjus::cba::CbaSession &sess2 = eryjus::cba::CbaSession::Singleton("root", "unknown");
+
     return EXIT_SUCCESS;
 }
+
